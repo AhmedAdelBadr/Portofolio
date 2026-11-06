@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ahmed Adel Badr — BI, SQL &amp; PMO Leadership Portfolio</title>
-<meta name="description" content="Business Intelligence, SQL / PostgreSQL and PMO leadership portfolio — databases and Power BI dashboards for executive, department, and project-level decision making.">
+<title>Ahmed Adel Badr — BI &amp; PMO Leadership Portfolio</title>
+<meta name="description" content="Business Intelligence and PMO leadership portfolio — from database design to Power BI dashboards for executive, department, and project-level decision making.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,8 +20,8 @@
   <div class="wrap nav">
     <a href="#top" class="brand">Ahmed Adel Badr<span>.</span></a>
     <nav class="nav-links">
-      <a href="#sql">SQL &amp; Data</a>
       <a href="#dashboards">Dashboards</a>
+      <a href="#journey">How I Work</a>
       <a href="#clients">Clients</a>
       <a href="#certificates">Certificates</a>
       <a href="#demo">Request a Demo</a>
@@ -38,7 +38,7 @@
 <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow">BI · SQL &amp; PMO Leadership Portfolio</span>
+        <span class="eyebrow">BI &amp; PMO Leadership Portfolio</span>
         <h1>I build the reporting layer<br>that runs <em>every level</em><br>of the organization.</h1>
         <p class="hero-sub">
           I lead Business Intelligence strategy and PMO governance end to end —
@@ -47,7 +47,6 @@
         </p>
         <div class="hero-cta">
           <a href="#dashboards" class="btn btn-primary">View dashboard samples</a>
-          <a href="#sql" class="btn btn-secondary">Explore the SQL work</a>
           <a href="assets/cv/Ahmed_Adel_Badr_CV.pdf" target="_blank" rel="noopener" class="btn btn-secondary">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
             Download CV
@@ -71,151 +70,6 @@
           <div class="num">100%</div>
           <div class="label">Departments onboarded to unified portfolio reporting</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SQL & DATA LAYER
-       ============================================================ -->
-  <section class="datalayer" id="sql">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">SQL &amp; Databases</span>
-        <h2>The data layer behind the dashboards.</h2>
-        <p>Every dashboard on this page sits on a database I designed. For large government entities in the Kingdom of Saudi Arabia, I build the relational SQL / PostgreSQL databases first, analyze them with SQL, then integrate them with Power BI, Power Platform, Zoho, Odoo and Smartsheet, so every leadership report is computed once, in one governed place.</p>
-      </div>
-
-      <!-- Pipeline -->
-      <div class="pipeline" aria-label="Data pipeline from source systems to dashboards">
-        <div class="pipe-step">
-          <span class="pipe-num">01</span>
-          <h4>Source systems</h4>
-          <p>Zoho Books, Odoo, Smartsheet, Power Apps forms, Excel submissions</p>
-        </div>
-        <div class="pipe-arrow" aria-hidden="true">→</div>
-        <div class="pipe-step">
-          <span class="pipe-num">02</span>
-          <h4>PostgreSQL database</h4>
-          <p>Normalized schema, keys &amp; constraints, indexes, ETL with Python</p>
-        </div>
-        <div class="pipe-arrow" aria-hidden="true">→</div>
-        <div class="pipe-step">
-          <span class="pipe-num">03</span>
-          <h4>SQL semantic layer</h4>
-          <p>Views for KPIs, EVM, RAG status; data-quality rules on every load</p>
-        </div>
-        <div class="pipe-arrow" aria-hidden="true">→</div>
-        <div class="pipe-step">
-          <span class="pipe-num">04</span>
-          <h4>Delivery</h4>
-          <p>Power BI dashboards, Power Automate alerts, executive reports</p>
-        </div>
-      </div>
-
-      <!-- Capabilities -->
-      <div class="cap-grid">
-        <div class="cap-card">
-          <h4>Database design &amp; modeling</h4>
-          <p>Relational schemas for projects, portfolios, finance and operations, with primary/foreign keys, CHECK constraints, and fact/dimension models built for reporting.</p>
-        </div>
-        <div class="cap-card">
-          <h4>Analytical SQL on large data</h4>
-          <p>CTEs, window functions (LAG, RANK, running totals), ROLLUP / GROUPING SETS, cohort and funnel analysis, percentiles, pivots, and large analytical queries that feed executive KPIs.</p>
-        </div>
-        <div class="cap-card">
-          <h4>Integration &amp; ETL</h4>
-          <p>Python and Power Platform pipelines that bring Zoho, Odoo and Smartsheet data into PostgreSQL, then publish it to Power BI Service/Server with row-level security.</p>
-        </div>
-        <div class="cap-card">
-          <h4>Data quality &amp; performance</h4>
-          <p>Automated checks for missing, late or inconsistent submissions, plus indexing and EXPLAIN ANALYZE tuning so reports stay fast as the data grows.</p>
-        </div>
-      </div>
-
-      <!-- Code showcase -->
-      <div class="code-block">
-        <div class="code-tabs" role="tablist" aria-label="SQL examples">
-          <button class="code-tab active" data-code="health" role="tab" aria-selected="true">Project health view</button>
-          <button class="code-tab" data-code="trend" role="tab" aria-selected="false">Trend with window functions</button>
-          <button class="code-tab" data-code="dq" role="tab" aria-selected="false">Data-quality rules</button>
-        </div>
-<pre class="code-panel active" id="code-health"><code>-- One row per project: Earned Value + RAG status, reused by every report
-CREATE OR REPLACE VIEW v_project_health AS
-SELECT
-    p.project_id,
-    p.project_name,
-    pf.portfolio_name,
-    e.spi,                     -- schedule performance (EV / PV)
-    e.cpi,                     -- cost performance     (EV / AC)
-    CASE
-        WHEN p.status = 'On Hold'          THEN 'Grey'
-        WHEN e.spi &lt; 0.85 OR e.cpi &lt; 0.85  THEN 'Red'
-        WHEN e.spi &lt; 0.95 OR e.cpi &lt; 0.95  THEN 'Amber'
-        ELSE 'Green'
-    END AS rag
-FROM projects p
-JOIN portfolios pf USING (portfolio_id)
-LEFT JOIN v_evm_latest e USING (project_id);</code></pre>
-<pre class="code-panel" id="code-trend"><code>-- Is each project improving or getting worse month over month?
-WITH trend AS (
-    SELECT
-        project_id,
-        report_month,
-        spi,
-        lag(spi) OVER w                                              AS prev_spi,
-        avg(spi) OVER (w ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)   AS spi_3m_avg,
-        row_number() OVER (PARTITION BY project_id ORDER BY report_month DESC) AS rn
-    FROM v_evm_monthly
-    WINDOW w AS (PARTITION BY project_id ORDER BY report_month)
-)
-SELECT project_id, prev_spi, spi, round(spi_3m_avg, 3) AS spi_3m_avg,
-       CASE WHEN spi &lt; prev_spi AND spi &lt; spi_3m_avg THEN 'Worsening'
-            WHEN spi &gt; prev_spi THEN 'Improving'
-            ELSE 'Stable' END AS trend
-FROM trend
-WHERE rn = 1;</code></pre>
-<pre class="code-panel" id="code-dq"><code>-- Catch reporting gaps before they reach leadership
-WITH expected AS (
-    SELECT p.project_id, gs::DATE AS report_month
-    FROM projects p
-    CROSS JOIN LATERAL generate_series(
-        date_trunc('month', p.start_date) + INTERVAL '1 month',
-        (SELECT max(report_month) FROM monthly_progress mp
-          WHERE mp.project_id = p.project_id),
-        INTERVAL '1 month') gs
-)
-SELECT 'Missing monthly report' AS rule, e.project_id, e.report_month
-FROM expected e
-LEFT JOIN monthly_progress mp USING (project_id, report_month)
-WHERE mp.project_id IS NULL
-UNION ALL
-SELECT 'Completed project without end date', project_id, NULL
-FROM projects
-WHERE status = 'Completed' AND actual_end_date IS NULL;</code></pre>
-        <p class="code-note">Excerpts from my public repositories. Client databases are confidential; these projects use synthetic data with the same patterns.</p>
-      </div>
-
-      <!-- Open-source projects -->
-      <div class="repo-grid">
-        <a class="repo-card" href="https://github.com/AhmedAdelBadr/pmo-portfolio-sql-analytics" target="_blank" rel="noopener">
-          <div class="repo-top">
-            <span class="repo-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
-            <span class="repo-link">GitHub ↗</span>
-          </div>
-          <h4>PMO Portfolio Analytics</h4>
-          <p>24-project portfolio in PostgreSQL: Earned Value layer, EAC forecasts, milestone slippage, 5×5 risk heat map, PM scorecard and data-quality rules.</p>
-          <div class="repo-tags"><span>PostgreSQL</span><span>Window functions</span><span>ROLLUP</span><span>CI</span></div>
-        </a>
-        <a class="repo-card" href="https://github.com/AhmedAdelBadr/real-estate-sales-sql-analytics" target="_blank" rel="noopener">
-          <div class="repo-top">
-            <span class="repo-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
-            <span class="repo-link">GitHub ↗</span>
-          </div>
-          <h4>Real Estate Sales &amp; Ads Analytics</h4>
-          <p>Ad → lead → viewing → sale funnel for Facebook and Instagram: cost per lead, ROAS, response-time impact, days on market, cohorts and attribution.</p>
-          <div class="repo-tags"><span>Funnels</span><span>Cohorts</span><span>FIRST_VALUE</span><span>LATERAL</span></div>
-        </a>
       </div>
     </div>
   </section>
@@ -324,6 +178,75 @@ WHERE status = 'Completed' AND actual_end_date IS NULL;</code></pre>
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HOW I WORK — data journey
+       ============================================================ -->
+  <section class="journey" id="journey">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How I Work</span>
+        <h2>From raw data to the decision on the table.</h2>
+        <p>The dashboards are the last step, not the first. For large government and private-sector programs, I build the whole path: understanding what leadership needs to decide, designing the database that holds the truth, connecting the systems that feed it, and only then turning it into analysis and dashboards.</p>
+      </div>
+
+      <ol class="journey-track">
+        <li class="j-step">
+          <div class="j-dot" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          </div>
+          <span class="j-num">01</span>
+          <h4>Understand the decisions</h4>
+          <p>Workshops with leadership and project teams to define the questions, KPIs and reporting levels each audience needs.</p>
+          <span class="j-out">KPI catalogue</span>
+        </li>
+        <li class="j-step">
+          <div class="j-dot" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          </div>
+          <span class="j-num">02</span>
+          <h4>Design the database</h4>
+          <p>A clear structure of entities and relationships (programs, projects, finance, risks) on SQL / PostgreSQL, built to stay reliable as data grows.</p>
+          <span class="j-out">Database &amp; schema</span>
+        </li>
+        <li class="j-step">
+          <div class="j-dot" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7h12M8 7l3-3M8 7l3 3M16 17H4m12 0l-3-3m3 3l-3 3"/></svg>
+          </div>
+          <span class="j-num">03</span>
+          <h4>Connect the sources</h4>
+          <p>Integrations that bring Zoho, Odoo, Smartsheet, Power Apps and Excel submissions into one governed place, automatically.</p>
+          <span class="j-out">Integrated data</span>
+        </li>
+        <li class="j-step">
+          <div class="j-dot" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M12 3l8 4v5c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V7l8-4z"/></svg>
+          </div>
+          <span class="j-num">04</span>
+          <h4>Analyze &amp; validate</h4>
+          <p>KPIs, trends and forecasts calculated once in one place, with quality checks that catch missing or inconsistent data before leaders see it.</p>
+          <span class="j-out">Trusted numbers</span>
+        </li>
+        <li class="j-step">
+          <div class="j-dot" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 15v-3M12 15V8M17 15v-5"/></svg>
+          </div>
+          <span class="j-num">05</span>
+          <h4>Dashboards &amp; decisions</h4>
+          <p>Power BI dashboards for every level, from executive to project, plus automated alerts and reports that drive the review meeting.</p>
+          <span class="j-out">Decisions</span>
+        </li>
+      </ol>
+
+      <div class="journey-foot">
+        <p>Want to see how this is built? Two open projects on GitHub follow the same journey end to end.</p>
+        <div class="journey-links">
+          <a href="https://github.com/AhmedAdelBadr/pmo-portfolio-sql-analytics" target="_blank" rel="noopener" class="btn btn-secondary">PMO Portfolio Analytics ↗</a>
+          <a href="https://github.com/AhmedAdelBadr/real-estate-sales-sql-analytics" target="_blank" rel="noopener" class="btn btn-secondary">Real Estate Sales Analytics ↗</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -605,7 +528,7 @@ WHERE status = 'Completed' AND actual_end_date IS NULL;</code></pre>
     <div class="footer-grid">
       <div class="footer-name">
         Ahmed Adel Badr
-        <span>BI · SQL &amp; PMO Leadership</span>
+        <span>BI &amp; PMO Leadership</span>
       </div>
       <div class="footer-links">
         <a class="icon-link" href="https://www.linkedin.com/in/ahmed-adel-badr/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
