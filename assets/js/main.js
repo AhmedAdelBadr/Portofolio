@@ -32,6 +32,41 @@ tabs.forEach((tab) => {
 });
 
 // ============================================================
+// SQL code tabs + lightweight syntax highlighting
+// ============================================================
+const SQL_KW = /\b(SELECT|FROM|WHERE|JOIN|LEFT|CROSS|LATERAL|USING|ON|AS|AND|OR|NOT|IS|NULL|CASE|WHEN|THEN|ELSE|END|WITH|UNION|ALL|CREATE|OR REPLACE|VIEW|OVER|PARTITION|BY|ORDER|ROWS|BETWEEN|PRECEDING|CURRENT|ROW|WINDOW|DESC|INTERVAL|DATE|GROUP|HAVING)\b/g;
+const SQL_FN = /\b(lag|avg|row_number|round|max|min|count|sum|generate_series|date_trunc|rank)\b(?=\()/g;
+
+function highlightSQL(el) {
+  const lines = el.textContent.split("\n").map((line) => {
+    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const ci = line.indexOf("--");
+    const code = ci >= 0 ? line.slice(0, ci) : line;
+    const comment = ci >= 0 ? line.slice(ci) : "";
+    let html = esc(code)
+      .replace(/'[^']*'/g, (m) => `<span class="str">${m}</span>`)
+      .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>')
+      .replace(SQL_FN, '<span class="fn">$1</span>')
+      .replace(SQL_KW, '<span class="kw">$1</span>');
+    if (comment) html += `<span class="cm">${esc(comment)}</span>`;
+    return html;
+  });
+  el.innerHTML = lines.join("\n");
+}
+document.querySelectorAll(".code-panel code").forEach(highlightSQL);
+
+const codeTabs = document.querySelectorAll(".code-tab");
+codeTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    codeTabs.forEach((t) => { t.classList.remove("active"); t.setAttribute("aria-selected", "false"); });
+    tab.classList.add("active");
+    tab.setAttribute("aria-selected", "true");
+    document.querySelectorAll(".code-panel").forEach((p) => p.classList.remove("active"));
+    document.getElementById(`code-${tab.dataset.code}`).classList.add("active");
+  });
+});
+
+// ============================================================
 // Demo request form -> Google Sheet via Apps Script
 // ============================================================
 const form = document.getElementById("demo-form");

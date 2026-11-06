@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ahmed Adel Badr — BI &amp; PMO Leadership Portfolio</title>
-<meta name="description" content="Business Intelligence and PMO leadership portfolio — Power BI dashboards for executive, department, and project-level decision making.">
+<title>Ahmed Adel Badr — BI, SQL &amp; PMO Leadership Portfolio</title>
+<meta name="description" content="Business Intelligence, SQL / PostgreSQL and PMO leadership portfolio — databases and Power BI dashboards for executive, department, and project-level decision making.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,7 @@
   <div class="wrap nav">
     <a href="#top" class="brand">Ahmed Adel Badr<span>.</span></a>
     <nav class="nav-links">
+      <a href="#sql">SQL &amp; Data</a>
       <a href="#dashboards">Dashboards</a>
       <a href="#clients">Clients</a>
       <a href="#certificates">Certificates</a>
@@ -37,7 +38,7 @@
 <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow">BI &amp; PMO Leadership Portfolio</span>
+        <span class="eyebrow">BI · SQL &amp; PMO Leadership Portfolio</span>
         <h1>I build the reporting layer<br>that runs <em>every level</em><br>of the organization.</h1>
         <p class="hero-sub">
           I lead Business Intelligence strategy and PMO governance end to end —
@@ -46,8 +47,8 @@
         </p>
         <div class="hero-cta">
           <a href="#dashboards" class="btn btn-primary">View dashboard samples</a>
-          <a href="#demo" class="btn btn-secondary">Request a demo</a>
-          <a href="https://drive.google.com/file/d/1QRIeS3BVG23v2rWDqUag7hbjciDYqri-/view?usp=sharing" target="_blank" rel="noopener" class="btn btn-secondary">
+          <a href="#sql" class="btn btn-secondary">Explore the SQL work</a>
+          <a href="assets/cv/Ahmed_Adel_Badr_CV.pdf" target="_blank" rel="noopener" class="btn btn-secondary">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
             Download CV
           </a>
@@ -70,6 +71,151 @@
           <div class="num">100%</div>
           <div class="label">Departments onboarded to unified portfolio reporting</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SQL & DATA LAYER
+       ============================================================ -->
+  <section class="datalayer" id="sql">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">SQL &amp; Databases</span>
+        <h2>The data layer behind the dashboards.</h2>
+        <p>Every dashboard on this page sits on a database I designed. For large government entities in the Kingdom of Saudi Arabia, I build the relational SQL / PostgreSQL databases first, analyze them with SQL, then integrate them with Power BI, Power Platform, Zoho, Odoo and Smartsheet, so every leadership report is computed once, in one governed place.</p>
+      </div>
+
+      <!-- Pipeline -->
+      <div class="pipeline" aria-label="Data pipeline from source systems to dashboards">
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <h4>Source systems</h4>
+          <p>Zoho Books, Odoo, Smartsheet, Power Apps forms, Excel submissions</p>
+        </div>
+        <div class="pipe-arrow" aria-hidden="true">→</div>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <h4>PostgreSQL database</h4>
+          <p>Normalized schema, keys &amp; constraints, indexes, ETL with Python</p>
+        </div>
+        <div class="pipe-arrow" aria-hidden="true">→</div>
+        <div class="pipe-step">
+          <span class="pipe-num">03</span>
+          <h4>SQL semantic layer</h4>
+          <p>Views for KPIs, EVM, RAG status; data-quality rules on every load</p>
+        </div>
+        <div class="pipe-arrow" aria-hidden="true">→</div>
+        <div class="pipe-step">
+          <span class="pipe-num">04</span>
+          <h4>Delivery</h4>
+          <p>Power BI dashboards, Power Automate alerts, executive reports</p>
+        </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="cap-grid">
+        <div class="cap-card">
+          <h4>Database design &amp; modeling</h4>
+          <p>Relational schemas for projects, portfolios, finance and operations, with primary/foreign keys, CHECK constraints, and fact/dimension models built for reporting.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Analytical SQL on large data</h4>
+          <p>CTEs, window functions (LAG, RANK, running totals), ROLLUP / GROUPING SETS, cohort and funnel analysis, percentiles, pivots, and large analytical queries that feed executive KPIs.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Integration &amp; ETL</h4>
+          <p>Python and Power Platform pipelines that bring Zoho, Odoo and Smartsheet data into PostgreSQL, then publish it to Power BI Service/Server with row-level security.</p>
+        </div>
+        <div class="cap-card">
+          <h4>Data quality &amp; performance</h4>
+          <p>Automated checks for missing, late or inconsistent submissions, plus indexing and EXPLAIN ANALYZE tuning so reports stay fast as the data grows.</p>
+        </div>
+      </div>
+
+      <!-- Code showcase -->
+      <div class="code-block">
+        <div class="code-tabs" role="tablist" aria-label="SQL examples">
+          <button class="code-tab active" data-code="health" role="tab" aria-selected="true">Project health view</button>
+          <button class="code-tab" data-code="trend" role="tab" aria-selected="false">Trend with window functions</button>
+          <button class="code-tab" data-code="dq" role="tab" aria-selected="false">Data-quality rules</button>
+        </div>
+<pre class="code-panel active" id="code-health"><code>-- One row per project: Earned Value + RAG status, reused by every report
+CREATE OR REPLACE VIEW v_project_health AS
+SELECT
+    p.project_id,
+    p.project_name,
+    pf.portfolio_name,
+    e.spi,                     -- schedule performance (EV / PV)
+    e.cpi,                     -- cost performance     (EV / AC)
+    CASE
+        WHEN p.status = 'On Hold'          THEN 'Grey'
+        WHEN e.spi &lt; 0.85 OR e.cpi &lt; 0.85  THEN 'Red'
+        WHEN e.spi &lt; 0.95 OR e.cpi &lt; 0.95  THEN 'Amber'
+        ELSE 'Green'
+    END AS rag
+FROM projects p
+JOIN portfolios pf USING (portfolio_id)
+LEFT JOIN v_evm_latest e USING (project_id);</code></pre>
+<pre class="code-panel" id="code-trend"><code>-- Is each project improving or getting worse month over month?
+WITH trend AS (
+    SELECT
+        project_id,
+        report_month,
+        spi,
+        lag(spi) OVER w                                              AS prev_spi,
+        avg(spi) OVER (w ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)   AS spi_3m_avg,
+        row_number() OVER (PARTITION BY project_id ORDER BY report_month DESC) AS rn
+    FROM v_evm_monthly
+    WINDOW w AS (PARTITION BY project_id ORDER BY report_month)
+)
+SELECT project_id, prev_spi, spi, round(spi_3m_avg, 3) AS spi_3m_avg,
+       CASE WHEN spi &lt; prev_spi AND spi &lt; spi_3m_avg THEN 'Worsening'
+            WHEN spi &gt; prev_spi THEN 'Improving'
+            ELSE 'Stable' END AS trend
+FROM trend
+WHERE rn = 1;</code></pre>
+<pre class="code-panel" id="code-dq"><code>-- Catch reporting gaps before they reach leadership
+WITH expected AS (
+    SELECT p.project_id, gs::DATE AS report_month
+    FROM projects p
+    CROSS JOIN LATERAL generate_series(
+        date_trunc('month', p.start_date) + INTERVAL '1 month',
+        (SELECT max(report_month) FROM monthly_progress mp
+          WHERE mp.project_id = p.project_id),
+        INTERVAL '1 month') gs
+)
+SELECT 'Missing monthly report' AS rule, e.project_id, e.report_month
+FROM expected e
+LEFT JOIN monthly_progress mp USING (project_id, report_month)
+WHERE mp.project_id IS NULL
+UNION ALL
+SELECT 'Completed project without end date', project_id, NULL
+FROM projects
+WHERE status = 'Completed' AND actual_end_date IS NULL;</code></pre>
+        <p class="code-note">Excerpts from my public repositories. Client databases are confidential; these projects use synthetic data with the same patterns.</p>
+      </div>
+
+      <!-- Open-source projects -->
+      <div class="repo-grid">
+        <a class="repo-card" href="https://github.com/AhmedAdelBadr/pmo-portfolio-sql-analytics" target="_blank" rel="noopener">
+          <div class="repo-top">
+            <span class="repo-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
+            <span class="repo-link">GitHub ↗</span>
+          </div>
+          <h4>PMO Portfolio Analytics</h4>
+          <p>24-project portfolio in PostgreSQL: Earned Value layer, EAC forecasts, milestone slippage, 5×5 risk heat map, PM scorecard and data-quality rules.</p>
+          <div class="repo-tags"><span>PostgreSQL</span><span>Window functions</span><span>ROLLUP</span><span>CI</span></div>
+        </a>
+        <a class="repo-card" href="https://github.com/AhmedAdelBadr/real-estate-sales-sql-analytics" target="_blank" rel="noopener">
+          <div class="repo-top">
+            <span class="repo-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+            <span class="repo-link">GitHub ↗</span>
+          </div>
+          <h4>Real Estate Sales &amp; Ads Analytics</h4>
+          <p>Ad → lead → viewing → sale funnel for Facebook and Instagram: cost per lead, ROAS, response-time impact, days on market, cohorts and attribution.</p>
+          <div class="repo-tags"><span>Funnels</span><span>Cohorts</span><span>FIRST_VALUE</span><span>LATERAL</span></div>
+        </a>
       </div>
     </div>
   </section>
@@ -282,7 +428,7 @@
            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5M16 4v5"/></svg>
          </div>
          <div class="cert-body">
-           <h4>PMP — Project Management Institude</h4>
+           <h4>PMP — Project Management Institute</h4>
            <span class="tag">2025</span>
          </div>
          <a href="https://drive.google.com/file/d/1sctywcb_eWgwLuayeytK_qo51sxbiGKT/view?usp=sharing" target="_blank" rel="noopener" class="cert-link">View</a>
@@ -459,13 +605,16 @@
     <div class="footer-grid">
       <div class="footer-name">
         Ahmed Adel Badr
-        <span>BI &amp; PMO Leadership</span>
+        <span>BI · SQL &amp; PMO Leadership</span>
       </div>
       <div class="footer-links">
         <a class="icon-link" href="https://www.linkedin.com/in/ahmed-adel-badr/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
         </a>
-        <a class="icon-link" href="ahmedadel7194@hotmail.com" aria-label="Email">
+        <a class="icon-link" href="https://github.com/AhmedAdelBadr" target="_blank" rel="noopener" aria-label="GitHub profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+        </a>
+        <a class="icon-link" href="mailto:ahmedadel7194@hotmail.com" aria-label="Email">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" stroke="none"/><path d="M4 6l8 7 8-7M4 6h16v12H4V6z"/></svg>
         </a>
       </div>
