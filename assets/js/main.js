@@ -9,17 +9,28 @@ if (logos) logos.innerHTML += logos.innerHTML.replace(/alt="[^"]*"/g, 'alt="" ar
 // ---------- tabs: active section + keep active tab in view ----------
 const tabLinks = [...document.querySelectorAll("#tabs a")];
 const byId = new Map(tabLinks.map((a) => [a.hash.slice(1), a]));
+const tabStrip = document.getElementById("tabs");
+let currentId = null;
 const setActive = (id) => {
+  if (id === currentId) return;
+  currentId = id;
   tabLinks.forEach((a) => a.classList.toggle("active", a.hash === "#" + id));
+  // Centre the active tab by scrolling only the tab strip sideways.
+  // (scrollIntoView would also scroll the page and fight the visitor's own scrolling.)
   const a = byId.get(id);
-  if (a) a.scrollIntoView({ block: "nearest", inline: "center", behavior: reduce ? "auto" : "smooth" });
+  if (a && tabStrip.scrollWidth > tabStrip.clientWidth) {
+    const left = a.offsetLeft - (tabStrip.clientWidth - a.offsetWidth) / 2;
+    tabStrip.scrollTo({ left, behavior: reduce ? "auto" : "smooth" });
+  }
 };
 const spy = new IntersectionObserver(
   (es) => es.forEach((e) => e.isIntersecting && setActive(e.target.id)),
   { rootMargin: "-40% 0px -55% 0px" }
 );
 byId.forEach((_, id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
-window.addEventListener("scroll", () => { if (window.scrollY < 200) tabLinks.forEach((a) => a.classList.remove("active")); }, { passive: true });
+window.addEventListener("scroll", () => {
+  if (window.scrollY < 200 && currentId) { currentId = null; tabLinks.forEach((a) => a.classList.remove("active")); }
+}, { passive: true });
 
 // ---------- reading progress ----------
 const bar = document.getElementById("progress");
