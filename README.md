@@ -6,26 +6,24 @@ A single-page, storytelling portfolio in plain HTML, CSS and JavaScript (no buil
 
 ## Sections
 
-| # | Section | What it covers |
-|---|---|---|
-| — | Hero | Positioning, headline numbers, CV download |
-| — | Story | Timeline from civil engineering to PMO, data and AI |
-| 01 | Leadership & management | Dar Al-Handasah national program (10,000+ projects, 200+ engineers, Cabinet & Presidency reporting), Arweqah PMO |
-| 02 | PMP® & PMO governance | Standards, earned value, risk, executive one-pagers |
-| 03 | Data architecture & engineering | Government databases, integrations, data quality, GitHub projects, Power BI 4D video |
-| 04 | AI engineering | Pulse AI assistant video, LLM / RAG / agents, models and tools |
-| 05 | Education & credentials | Degree, certifications, experience letters, skills |
-| — | Request a demo | Form that writes to a Google Sheet |
+Present-first order, reachable from the sticky tab bar and from the four tiles at the top:
 
-Each chapter ends with the courses and credentials that belong to it.
+| # | Section | What it covers | Credentials shown beside it |
+|---|---|---|---|
+| 01 | AI Engineering | Pulse AI assistant video, LLM apps, RAG, agents, models and tools | AI / LLM courses |
+| 02 | PMO × AI | How AI runs across the project lifecycle: capture, monitor, alert, summarise, ask | PMP, Power Platform |
+| 03 | PMO Leadership · PMP | Dar Al-Handasah national program and the Arweqah PMO | PMP, ISO 21500, experience letter |
+| 04 | Data Architecture | Government databases, integrations, data quality, Power BI 4D video, GitHub projects | Data / BI courses |
+| 05 | Story | Career timeline and core skills | Degree, Revit, BIM letters |
+| — | Contact | Request-a-demo form | — |
 
 ## Files
 
 ```
 index.html               page content (semantic HTML + JSON-LD for search engines and ATS parsers)
 assets/css/style.css     styles
-assets/js/main.js        menu, scroll reveal, counters, demo form
-assets/video/            demo videos and their poster frames
+assets/js/main.js        tab navigation, progress bar, reveal, counters, video tiles, demo form
+assets/video/            demo videos, poster frames and the short loops used in the tiles
 assets/img/              client logos, project images, social preview image
 assets/cv/               CV (PDF)
 apps-script/Code.gs      Google Apps Script that receives demo requests
@@ -39,4 +37,4 @@ The form posts to a Google Apps Script web app (`SCRIPT_URL` in `assets/js/main.
 
 - **CV:** replace `assets/cv/Ahmed_Adel_Badr_CV.pdf`.
 - **Videos:** keep MP4s under ~10 MB (H.264, 720p) so they load quickly on GitHub Pages.
-- **Courses:** edit the `.learned` list at the end of each chapter in `index.html`.
+- **Courses and certificates:** edit the `.creds` list in each section's side panel in `index.html`.
